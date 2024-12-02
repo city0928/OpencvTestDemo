@@ -55,6 +55,14 @@ endwhile()
 list(JOIN REQUIRES_PY "" REQUIRES_PY)
 message(STATUS  ${PROJECT_NAME} ": REQUIRES_PY: \n" ${REQUIRES_PY})
 
+# LOCAL LIB
+#set(IMGPROC_DIR "D:/guanzhaohang/desktop/LibImgProc/Debug")
+#set(IMGPROC_INCLUDE_DIR ${IMGPROC_DIR}/include)
+#set(IMGPROC_LIB_DIR ${IMGPROC_DIR}/lib)
+#include_directories(${IMGPROC_INCLUDE_DIR})
+#find_library(LO_IMGPROC LibImgProcd REQUIRED PATHS ${IMGPROC_LIB_DIR})
+
+
 list(APPEND LinkLibs ${LinkLibsQt} ${Lib3rd})
 message(STATUS ${PROJECT_NAME} ": LinkLibs: " ${LinkLibs})
 
@@ -64,7 +72,7 @@ add_executable(${PROJECT_NAME}
     ${src_SOURCE}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${LinkLibs})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LinkLibs} ${LO_IMGPROC})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     ${BUNDLE_ID_OPTION}

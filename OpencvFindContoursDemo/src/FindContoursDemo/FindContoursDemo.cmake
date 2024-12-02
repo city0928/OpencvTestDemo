@@ -7,4 +7,7 @@ include_directories(${FindContoursDemo_INCLUDE_DIRS})
 set(FindContoursDemo_SOURCE
     ${FindContoursDemo_DIR}/widget.h
     ${FindContoursDemo_DIR}/widget.cpp
+    ${FindContoursDemo_DIR}/TestblobAnalyzer.ui
+    ${FindContoursDemo_DIR}/TestblobAnalyzer.h
+    ${FindContoursDemo_DIR}/TestblobAnalyzer.cpp
 )
