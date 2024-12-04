@@ -11,9 +11,13 @@
 #include "opencv2/imgcodecs.hpp"
 #include "Logger.h"
 
+#include "UserManagerSystemDataBase.h"
+
 #define painterpainterpath 0
 #define blobAnalyzer 0
-#define sqlite3templateclass 1
+#define sqlite3templateclass 0
+#define sqliteorm 1
+
 
 int main(int argc, char *argv[])
 {
@@ -33,7 +37,10 @@ int main(int argc, char *argv[])
     obj.findBlobAnalyzerCA(matTop);
     obj.show();
 #elif sqlite3templateclass
-
+    DataBaseSQLite<IVSUserManageData> m_TestDataBase("IVSTest.db", "TestTabel");
+#elif sqliteorm
+    UserManagerSystemDataBase w;
+    w.show();
 #endif
     return a.exec();
 }
