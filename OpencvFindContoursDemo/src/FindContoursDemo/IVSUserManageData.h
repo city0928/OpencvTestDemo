@@ -9,7 +9,8 @@
 struct IVSUserManageData {
     std::string useInfoWindow;
     std::string showShortCut;
+    bool showBool;
     int id;
 };
 REGISTER_AUTO_KEY(IVSUserManageData, id)
-REFLECTION(IVSUserManageData, id, useInfoWindow, showShortCut)
+REFLECTION(IVSUserManageData, id, useInfoWindow, showShortCut, showBool)
