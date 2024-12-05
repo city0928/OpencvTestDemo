@@ -3,6 +3,7 @@
 
 #include "opencv2/imgproc.hpp"
 #include "BlobInfoList.h"
+#include "IVSUserManageData.h"
 #include "ExecHelper.h"
 //#include "LibImgProc/BlobAnalyzerCA.h"
 //#include "LibImgProc/BlobAnalyzerCC.h"
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
 #elif sqlite3templateclass
     DataBaseSQLite<IVSUserManageData> m_TestDataBase("IVSTest.db", "TestTabel");
 #elif sqliteorm
-    UserManagerSystemDataBase w;
+    UserManagerSystemDataBase<IVSUserManageData> w("id");
     w.show();
 #endif
     return a.exec();

@@ -13,4 +13,5 @@ struct IVSUserManageData {
     int id;
 };
 REGISTER_AUTO_KEY(IVSUserManageData, id)
+//REGISTER_CONFLICT_KEY(IVSUserManageData, showShortCut)
 REFLECTION(IVSUserManageData, id, useInfoWindow, showShortCut, showBool)
