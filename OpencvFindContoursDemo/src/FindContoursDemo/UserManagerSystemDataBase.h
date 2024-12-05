@@ -55,10 +55,12 @@ template <class DB> class UserManagerSystemDataBase : public QWidget
             std::vector<IVSUserManageData> aaaa;
             queryTDB(aaaa, "id>=0");
             for (int i = 0; i < aaaa.size(); ++i) {
-                aaaa[i].showShortCut = "bbbbbb";
-                aaaa[i].useInfoWindow = "tttttttttttt";
-                updateTDB(aaaa[i] /*condition*/);
+                aaaa[i].showShortCut = "ppppppppppp";
+                aaaa[i].useInfoWindow = "aaaaaaaaaaaaaaaa";
+                aaaa[i].showBool = true;
+                //updateTDB(aaaa[i] /*condition*/);
             }
+            updateTDB(aaaa);
         });
         connect(btn_D, &QPushButton::clicked, this, [&]() {
             // std::string str = "showBool=false";
@@ -88,14 +90,17 @@ template <class DB> class UserManagerSystemDataBase : public QWidget
             btn_U->move(100, 200);
             btn_D->move(200, 200);
             connect(btn_C, &QPushButton::clicked, this, [&]() {
+                std::vector<DB> vector;
                 for (int i = 0; i < 10; ++i) {
                     DB key;
                     key.showShortCut = "showShortCut" + QString::number(i).toStdString();
                     key.useInfoWindow = "useInfoWindow" + QString::number(i).toStdString();
                     key.showBool = (i % 2 == 0) ? true : false;
                     // qDebug() << "insert result: " << ivsSqlite.insert<IVSUserManageData>(key);
-                    insertTDB(key);
+                    //insertTDB(key);
+                    vector.push_back(key);
                 }
+                insertTDB(vector);
             });
             connect(btn_R, &QPushButton::clicked, this, [&]() {
                 std::vector<DB> aaaa;
@@ -112,10 +117,13 @@ template <class DB> class UserManagerSystemDataBase : public QWidget
                 std::vector<IVSUserManageData> aaaa;
                 queryTDB(aaaa, "id>=0");
                 for (int i = 0; i < aaaa.size(); ++i) {
-                    aaaa[i].showShortCut = "bbbbbb";
-                    aaaa[i].useInfoWindow = "tttttttttttt";
-                    updateTDB(aaaa[i] /*condition*/);
+                    aaaa[i].showShortCut = "ppppppppppp";
+                    aaaa[i].useInfoWindow = "aaaaaaaaaaaaaaaa";
+                    aaaa[i].showBool = true;
+                    //updateTDB(aaaa[i] /*condition*/);
                 }
+
+                updateTDB(aaaa);
             });
             connect(btn_D, &QPushButton::clicked, this, [&]() {
                 // std::string str = "showBool=false";
@@ -141,15 +149,14 @@ template <class DB> class UserManagerSystemDataBase : public QWidget
     }
     void insertTDB(const std::vector<DB>& dataList)
     {
-        ivsSqlite.begin();
-        if (!ivsSqlite.insert<std::vector<DB>>(dataList)) {
-            Logur::i().error("insert result faild!!!");
-            ivsSqlite.rollback();
-            Logur::i().error("insert result rollback sucefull!!!");
+        //ivsSqlite.begin();
+        if (INT_MIN == ivsSqlite.insert<std::vector<DB>>(dataList)) {
+            Logur::i().error("insert result faild!!! size:{}", dataList.size());
+            //ivsSqlite.rollback();
             return;
         }
-        ivsSqlite.commit();
-        Logur::i().info("insert result succefful!!!");
+        //ivsSqlite.commit();
+        Logur::i().info("insert result succefful!!! size:{}", dataList.size());
     }
 
     template <typename... Args> void queryTDB(std::vector<DB>& dataList, Args&&... arg)
@@ -159,10 +166,10 @@ template <class DB> class UserManagerSystemDataBase : public QWidget
         ivsSqlite.commit();
     }
 
-    template <typename... Args> void updateTDB(const DB& data, Args&&... arg)
+    template <typename... Args> void updateTDB(const DB& data/*, Args&&... arg*/)
     {
         ivsSqlite.begin();
-        if (INT_MIN == ivsSqlite.update<DB>(data, std::forward<Args>(arg)...)) {
+        if (INT_MIN == ivsSqlite.update<DB>(data/*, std::forward<Args>(arg)...*/)) {
             ivsSqlite.rollback();
             Logur::i().info("update result faild!!!");
             return;
@@ -170,17 +177,15 @@ template <class DB> class UserManagerSystemDataBase : public QWidget
         ivsSqlite.commit();
         Logur::i().info("update result succefful!!!");
     }
-    template <typename... Args> void updateTDB(const std::vector<DB>& dataList, Args&&... arg)
+    template <typename... Args> void updateTDB(const std::vector<DB>& dataList/*, Args&&... arg*/)
     {
-        ivsSqlite.begin();
-        for (const auto& it : dataList) {
-            if (!ivsSqlite.update<DB>(it, std::forward<Args>(arg)...)) {
-                ivsSqlite.rollback();
-                Logur::i().info("update result faild!!! size: {}", dataList.size());
-                return;
-            }
+        //ivsSqlite.begin();
+        if (INT_MIN == ivsSqlite.update<DB>(dataList/*, std::forward<Args>(arg)...*/)) {
+            //ivsSqlite.rollback();
+            Logur::i().info("update result faild!!! size: {}", dataList.size());
+            return;
         }
-        ivsSqlite.commit();
+        //ivsSqlite.commit();
         Logur::i().info("update result succefful!!! size: {}", dataList.size());
     }
 
